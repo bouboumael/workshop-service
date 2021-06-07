@@ -30,14 +30,13 @@ class TripController extends AbstractController
     /**
      * @Route("/new", name="trip_new", methods={"GET","POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, GeoService $geoService): Response
     {
         $trip = new Trip();
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $geoService = new GeoService();
             $fromCity = $trip->getFromCity();
             $toCity = $trip->getToCity();
             $trip->setDistance($geoService->calcDistance(
@@ -71,13 +70,12 @@ class TripController extends AbstractController
     /**
      * @Route("/{id}/edit", name="trip_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Trip $trip, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Trip $trip, EntityManagerInterface $entityManager, GeoService $geoService): Response
     {
         $form = $this->createForm(TripType::class, $trip);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $geoService = new GeoService();
             $fromCity = $trip->getFromCity();
             $toCity = $trip->getToCity();
             $trip->setDistance($geoService->calcDistance(
