@@ -10,7 +10,7 @@ use App\Entity\City;
 
 class CityFixtures extends Fixture implements ContainerAwareInterface
 {
-    const LIMIT = 20;
+    const LIMIT = 100;
 
     private $container;
 
